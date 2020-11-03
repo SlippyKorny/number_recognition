@@ -16,7 +16,14 @@ def load_and_preprocess_img(input):
     return img
 
 
-def recognize_in_img(config, input_path, console_output, output_path=None):
+def recognize_in_folder(config, input_dir, console_output, output_dir):
+    for filename in os.listdir(input_dir):
+        if filename.endswith('.png'):
+            recognize_in_img(config, os.path.join(input_dir, filename), console_output,
+                             os.path.join(output_dir, filename.replace('.png', '.txt')))
+
+
+def recognize_in_img(config, input_path, console_output, output_path):
     img = load_and_preprocess_img(input_path)
 
     output = pytesseract.image_to_string(img, config=config)
@@ -56,7 +63,7 @@ def main():
     try:
         os.mkdir(hidden_folder_path)
     except OSError:
-        print('Creation of working directory failed - do you have the permission to the create folders in the current '
+        print('Creation of working directory failed: do you have the permission to the create folders in the current '
               'directory?')
 
     # Configuration for the tesseract
@@ -67,7 +74,7 @@ def main():
     # Convert image/images to png and then recognize text inside them
     if args.input_dir_path is not None:  # when working with a directory
         convert.convert_all_in_folder(args.input_dir_path, hidden_folder_path)
-        # TODO: Do recognition for a folder
+        recognize_in_folder(custom_config, hidden_folder_path, not args.mute, args.output_dir_path)
     elif args.input_file_path:  # when working with a file
         png_file_path = hidden_folder_path + str(randint(0, 100)) + '.png'
         convert.convert_img(args.input_file_path, png_file_path)
