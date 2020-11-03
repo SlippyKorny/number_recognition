@@ -9,7 +9,7 @@ formatted files with an uknown monospace-like font. Solution of the problem was 
 
 Script in this repository achieves 98% evaluation accuracy *(only one error)* in reading from acquired dataset. Some of the evaluations are corrected manually *(such as number 7 appearing as "F" or "f")* which could be improved uppon given a bigger dataset with the same font. 
 
-All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. This solution should work the same on Linux, Windows and MacOS however since I only use Ubuntu as of the moment I will only present the installation instructions for that operating system.
+All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. This solution should work the same on Linux, Windows and MacOS *(with and without CUDA)* however since I only use Ubuntu as of the moment I will only present the installation instructions for that operating system.
 
 ## Installation
 
