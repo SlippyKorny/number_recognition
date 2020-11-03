@@ -1,7 +1,3 @@
-## Table of contents
-
-
-
 ## About the project
 
 This repository contains a simple set of script utilities for recognizing decimals with two leading zeros from images in .eps *(encapsulated postscript)* 
