@@ -5,17 +5,18 @@
 ## About the project
 
 This repository contains a simple set of script utilities for recognizing decimals with two leading zeros from images in .eps *(encapsulated postscript)* 
-format with an uknown monospace-like font. Solution of the problem was achieved by converting eps file to png format and then preprocessing it and removing
-background noise with the use of OpenCV. Then the recognition part is achieved by utilizing the open source Tesseract recognition engine. Script in this
-repository achieves 98% accuracy in reading from acquired dataset. All of the testing was done on Ubuntu 20.04.1 LTS however the solution should work the same
-on all GNU/Linux distributions.
+formatted files with an uknown monospace-like font. Solution of the problem was achieved by converting *eps* file to *png* format, preprocessing it with OpenCV  *(converting it to grayscale, denoising using [Non-local Means Denoising algorithm](http://www.ipol.im/pub/algo/bcm_non_local_means_denoising), setting a threshold for pixels and smoothing it with a custom filter)* and recognizing it with the use of open source Tesseract recognition engine.
+
+Script in this repository achieves 98% evaluation accuracy *(only one error)* in reading from acquired dataset. Some of the evaluations are corrected manually *(such as number 7 appearing as "F" or "f")* which could be improved uppon given a bigger dataset with the same font. 
+
+All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. This solution should work the same on Linux, Windows and MacOS *(with and without CUDA)* however since I only use Ubuntu as of the moment I will only present the installation instructions for that operating system.
 
 ## Installation
 
 This section assumes you: 
-* have Python 3.8.5 installed on your operating system
-* the alias of that version of python is "python3" 
-* the alias of pip for that version of python is "pip3"
+* have a Python 3.8.5 interpreter installed on your operating system
+* have the alias of that interpreter set as "python3" *(default on most systems)* 
+* have the alias of pip for that interpreter set as "pip3" *(default on most systems)*
 
 If you are using an ubuntu based distribution you should be ready to begin the installation without any tweaking.
 
@@ -35,26 +36,18 @@ This section contains a set of usage scenarios. It assumes that you are inside o
 1. Recognition of text in a single eps file and printing out to terminal
 
 ```sh
-# First convert the image to png format
-python3 convert.py -i path/to/image.eps -o path/to/desired/conversion/output.png
-# Recognize the characters in the image and print out to the console
-python3 recognize.py -i path/to/desired/conversion/output.png
+python3 recognize.py -i path/to/eps_file.eps
 ```
 
-2. Recognition of text in a single eps file and saving on disk (without console output)
+2. Recognition of text in a single eps file and saving on disk *(without console output)*
 ```sh
-# First convert the image to png format
-python3 convert.py -i path/to/image.eps -o path/to/desired/conversion/output.png  
-# Recognize the characters in the image and save them on disk
-python3 recognize.py -i path/to/desired/conversion/output.png -o path/to/written_output.txt  -m
+python3 recognize.py -m -i path/to/eps_file.eps -o path/to/text_from_image.txt 
 ```
 
-3. Convert all of the images from a selected folder and save their content in files representing each one of them
+3. Convert all of the images from a selected folder and save their contents in files in the given folder
 ```sh
-# First convert the images in a folder to png format
-python3 convert.py -idir path/to/images/ -odir path/to/desired/conversion/output/  
-# Recognize characters in each png file and save them in txt files in the specified folder
-python3 recognize.py -idir path/to/desired/conversion/output -odir path/to/desired/log/output 
+# Keep in mind that the script will not create txt_files_folder/ - you must create it beforehand
+python3 recognize.py -idir path/to/eps_files_folder/ -odir path/to/txt_files_folder/
 ```
 
-After running recognize.py you can always remove the no longer necessary png files with `rm -rf path/to/desired/conversion/*.png`.
+If you have any doubts about how something works in the program you can run `python3 recognize.py --help` for information about all flags.
