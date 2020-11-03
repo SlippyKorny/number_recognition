@@ -7,7 +7,7 @@
 This repository contains a simple set of script utilities for recognizing decimals with two leading zeros from images in .eps *(encapsulated postscript)* 
 formatted files with an uknown monospace-like font. Solution of the problem was achieved by converting *eps* file to *png* format, preprocessing it with OpenCV  *(converting it to grayscale, denoising using [Non-local Means Denoising algorithm](http://www.ipol.im/pub/algo/bcm_non_local_means_denoising), setting a threshold for pixels and smoothing it with a custom filter)* and recognizing it with the use of open source Tesseract recognition engine.
 
-Script in this repository achieves 98% evaluation accuracy *(only one error)* in reading from acquired dataset. Some of the evaluations are corrected manually *(such as number 7 appearing as "F" or "f")* which could be improved uppon given a bigger dataset with the same font. 
+Script in this repository achieves 98% evaluation accuracy *(only one error)* in reading from acquired dataset. Some of the evaluations are corrected manually *(such as number 7 appearing as "F" or "f")* which could be improved if a bigger dataset with the same font was to be acquired. 
 
 All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. Tesseract version used in this project is 4.1.1. I have experimented with the 4.0.0 version of the library and it has given worse results so it is highly recommended to use the newest version if possible. The included scripts should work the same on Linux, Windows and MacOS *(with and without CUDA)* however since I only use Ubuntu on my personal machines as of the moment I will only present the installation instructions for that operating system.
 
