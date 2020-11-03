@@ -9,7 +9,7 @@ formatted files with an uknown monospace-like font. Solution of the problem was 
 
 Script in this repository achieves 98% evaluation accuracy *(only one error)* in reading from acquired dataset. Some of the evaluations are corrected manually *(such as number 7 appearing as "F" or "f")* which could be improved uppon given a bigger dataset with the same font. 
 
-All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. This solution should work the same on Linux, Windows and MacOS *(with and without CUDA)* however since I only use Ubuntu as of the moment I will only present the installation instructions for that operating system.
+All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. Tesseract version used in this project is 4.1.1. I have experimented with the 4.0.0 version of the library and it has given worse results so it is highly recommended to use the newest version if possible. The included scripts should work the same on Linux, Windows and MacOS *(with and without CUDA)* however since I only use Ubuntu on my personal machines as of the moment I will only present the installation instructions for that operating system.
 
 ## Installation
 
@@ -21,12 +21,9 @@ This section assumes you:
 If you are using an ubuntu based distribution you should be ready to begin the installation without any tweaking.
 
 ```sh
-sudo apt install tesseract-ocr
-sudo apt install libtesseract-dev
-pip3 install opencv-python
-pip3 install pytesseract
-pip3 install numpy
-pip3 install pillow
+sudo apt install tesseract-ocr libtesseract-dev
+python3 -m pip install --upgrade pip
+pip3 install opencv-python pytesseract numpy pillow
 ```
 
 ## Usage example
