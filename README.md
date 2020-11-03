@@ -15,8 +15,8 @@ All of the testing was done on Ubuntu 20.04.1 LTS with utilization of CUDA. This
 
 This section assumes you: 
 * have a Python 3.8.5 interpreter installed on your operating system
-* the alias of that interpreter is "python3" 
-* the alias of pip for that interpreter is "pip3"
+* have the alias of that interpreter set as "python3" *(default on most systems)* 
+* have the alias of pip for that interpreter set as "pip3" *(default on most systems)*
 
 If you are using an ubuntu based distribution you should be ready to begin the installation without any tweaking.
 
