@@ -5,6 +5,7 @@ import cv2
 import pytesseract
 import numpy as np
 from random import randint
+import re
 
 
 def load_and_preprocess_img(input):
@@ -28,20 +29,21 @@ def recognize_in_img(config, input_path, console_output, output_path):
 
     output = pytesseract.image_to_string(img, config=config)
     output.replace("-", "").replace("F", "7").replace("f", "7")
+    last_num_index = -1
+    i = 0
+    for char in output:
+        if char.isdigit():
+            last_num_index = i
+        i += 1
+
+    output = output[:last_num_index]
+
     if console_output:
         print(output)
     if output_path is not None:
         f = open(output_path, "w")
         f.write(output)
         f.close()
-
-
-def format_output(txt):
-    output_arr = txt.replace("-", "").splitlines()
-    output = ""
-    for s in output_arr:
-        output += ' '.join(s[i:i + 2] for i in range(0, len(s), 2)) + "\n"
-    return output
 
 
 def delete_working_dir(hidden_folder_path):
@@ -73,12 +75,18 @@ def main():
 
     # Convert image/images to png and then recognize text inside them
     if args.input_dir_path is not None:  # when working with a directory
-        convert.convert_all_in_folder(args.input_dir_path, hidden_folder_path)
-        recognize_in_folder(custom_config, hidden_folder_path, not args.mute, args.output_dir_path)
+        if not os.path.isdir(args.input_dir_path) or not os.path.isdir(args.output_dir_path):
+            print("Passed input or output directory does not exist or is a file!")
+        else:
+            convert.convert_all_in_folder(args.input_dir_path, hidden_folder_path)
+            recognize_in_folder(custom_config, hidden_folder_path, not args.mute, args.output_dir_path)
     elif args.input_file_path:  # when working with a file
-        png_file_path = hidden_folder_path + str(randint(0, 100)) + '.png'
-        convert.convert_img(args.input_file_path, png_file_path)
-        recognize_in_img(custom_config, png_file_path, not args.mute, args.output_file_path)
+        if not os.path.isfile(args.input_file_path) or not args.input_file_path.endswith('.eps'):
+            print("Passed input file either does not exist or is not an eps file!")
+        else:
+            png_file_path = hidden_folder_path + str(randint(0, 100)) + '.png'
+            convert.convert_img(args.input_file_path, png_file_path)
+            recognize_in_img(custom_config, png_file_path, not args.mute, args.output_file_path)
     else:
         print("You need to specify either a target directory or a target file for recognition")
 
@@ -87,18 +95,18 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='A small script capable of recognizing two leading numbers in png files.')
+        description='A small script capable of recognizing two leading numbers in eps files.')
 
     parser.add_argument('--input', '-i', dest='input_file_path', default='file.eps',
-                        help='path to the target eps file')
+                        help='path to the input eps file')
 
     parser.add_argument('--input-dir', '-idir', dest='input_dir_path', help='path to the folder with eps files')
 
     parser.add_argument('--output', '-o', dest='output_file_path',
-                        help='Path to where the output file should be created')
+                        help='path to where the output file should be created')
 
     parser.add_argument('--output-dir', '-odir', dest='output_dir_path', help='path to the output folder')
 
     parser.add_argument('--mute', '-m', action='store_true',
-                        help='If set to true will turn off all of the console output of this command')
+                        help='if set to true will turn off all of the console output of this command')
     main()
