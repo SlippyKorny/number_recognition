@@ -28,7 +28,7 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='A small script capable of recognizing two leading numbers in png files.')
+        description='A small script capable of converting eps files to png format.')
 
     parser.add_argument('--input', '-i', dest='input_file_path',
                         help='path to the target eps file')
